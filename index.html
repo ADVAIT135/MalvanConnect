@@ -1,0 +1,212 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#f4f3ec" />
+    <meta name="description" content="A simple local notice board and everyday directory for Malvan." />
+    <title>Malvan Connect | Your neighbourhood board</title>
+    <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+    <script src="app.js" defer></script>
+  </head>
+  <body>
+    <div class="app-shell">
+      <header class="topbar">
+        <a class="brand" href="#home" aria-label="Malvan Connect home">
+          <span class="brand-mark" aria-hidden="true"><span></span><span></span><span></span></span>
+          <span class="brand-name">malvan<span>connect</span></span>
+        </a>
+        <div class="topbar-right">
+          <span class="location"><span class="location-dot"></span>Malvan, Sindhudurg</span>
+          <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Switch to dark theme" aria-pressed="false" title="Switch theme"><span id="theme-icon" aria-hidden="true">&#9790;</span><span class="theme-label" id="theme-label">Dark</span></button>
+          <div class="language-switch" role="group" aria-label="Choose language">
+            <button class="language-button active" data-lang="en" aria-pressed="true">EN</button>
+            <button class="language-button" data-lang="mr" aria-pressed="false">मराठी</button>
+          </div>
+        </div>
+      </header>
+
+      <aside class="slogan-ribbon" aria-label="Malvan and Konkan slogans" aria-live="polite">
+        <span class="slogan-kicker" id="slogan-kicker" data-i18n="sloganKicker">LOCAL PRIDE · ORIGINAL LINES</span>
+        <div class="slogan-pair" id="slogan-pair">
+          <p class="slogan-main" id="top-slogan-main">मालवणची माती, दर्याचा दरारा!</p>
+          <p class="slogan-translation" id="top-slogan-translation">Malvan soil, Arabian Sea soul.</p>
+        </div>
+      </aside>
+
+      <main id="home">
+        <section class="welcome-strip" aria-label="Welcome to Malvan">
+          <div class="welcome-copy">
+            <span class="eyebrow" data-i18n="eyebrow">YOUR NEIGHBOURHOOD, AT A GLANCE</span>
+            <h1 data-i18n="headline">Good things happen <em>locally.</em></h1>
+            <p data-i18n="intro">Find a hand, lend a hand, and stay in the loop around Malvan.</p>
+          </div>
+          <div class="coast-photo" role="img" aria-label="The Konkan coast"></div>
+          <div class="welcome-date"><span class="date-sun" aria-hidden="true">&#9728;</span><span id="today"></span></div>
+        </section>
+
+        <nav class="feature-tabs" role="tablist" aria-label="Malvan Connect sections">
+          <button class="feature-tab active" id="tab-tides" role="tab" aria-selected="true" aria-controls="tides-view" data-view="tides" data-i18n="tabTides">Tide &amp; fishing</button>
+          <button class="feature-tab" id="tab-alerts" role="tab" aria-selected="false" aria-controls="alerts-view" data-view="alerts" data-i18n="tabAlerts">Monsoon alerts</button>
+          <button class="feature-tab" id="tab-markets" role="tab" aria-selected="false" aria-controls="markets-view" data-view="markets" data-i18n="tabMarkets">Market prices</button>
+          <button class="feature-tab" id="tab-buses" role="tab" aria-selected="false" aria-controls="buses-view" data-view="buses" data-i18n="tabBuses">Bus travel</button>
+          <button class="feature-tab" id="tab-places" role="tab" aria-selected="false" aria-controls="places-view" data-view="places" data-i18n="tabPlaces">Explore Malvan</button>
+          <button class="feature-tab" id="tab-board" role="tab" aria-selected="false" aria-controls="board-view" data-view="board" data-i18n="tabBoard">Community board</button>
+        </nav>
+
+        <section class="feature-view" id="tides-view" role="tabpanel" aria-labelledby="tab-tides">
+          <div class="feature-heading"><div><span class="eyebrow section-eyebrow" data-i18n="tideEyebrow">SEA CONDITIONS · MALVAN COAST</span><h2 data-i18n="tideTitle">Tide &amp; fishing calendar</h2></div><div class="feed-status"><span class="live-dot"></span><span id="tide-updated" data-i18n="loadingForecast">Loading forecast…</span><button class="icon-button" id="refresh-tides" aria-label="Refresh tide forecast" title="Refresh">&#8635;</button></div></div>
+          <div class="tide-toolbar"><label class="compact-label"><span data-i18n="coastLabel">Coast area</span><select id="tide-zone"><option value="malvan" data-i18n="zoneMalvan">Malvan coast</option><option value="devbagh" data-i18n="zoneDevbagh">Devbagh creek mouth</option><option value="achara" data-i18n="zoneAchara">Achara coast</option></select></label><span class="local-date" id="tide-date"></span></div>
+          <div class="tide-grid"><section class="data-panel tide-panel"><div class="panel-heading"><div><span class="eyebrow section-eyebrow" data-i18n="todayTide">TODAY’S TIDE ESTIMATE</span><h3 data-i18n="tideTurns">High &amp; low turns</h3></div><span class="model-label" data-i18n="modelEstimate">MODEL ESTIMATE</span></div><div id="tide-turns" class="tide-turns"><p class="loading-copy" data-i18n="loadingForecast">Loading forecast…</p></div><div class="window-callout"><span class="window-icon" aria-hidden="true">&#9672;</span><div><strong data-i18n="lowerSeaState">Lower wave/current period</strong><span id="fishing-window" data-i18n="loadingForecast">Loading forecast…</span></div></div></section><section class="data-panel moon-panel"><div class="panel-heading"><div><span class="eyebrow section-eyebrow" data-i18n="moonToday">TODAY</span><h3 data-i18n="moonPhase">Moon phase</h3></div></div><div class="moon-display"><span id="moon-visual" class="moon-visual moon-0" aria-hidden="true">&#9789;</span><div><strong id="moon-name"></strong><span id="moon-illumination"></span></div></div><p class="fine-print" data-i18n="moonNote">Phase is astronomical; local fishing results vary.</p></section></div>
+          <section class="data-panel sea-conditions"><div class="panel-heading"><div><span class="eyebrow section-eyebrow" data-i18n="marineOutlook">MARINE OUTLOOK</span><h3 data-i18n="nextHours">Next hours</h3></div><span class="units-note" data-i18n="modelUnits">Wave height in metres · current in km/h</span></div><div id="sea-forecast" class="sea-forecast"><p class="loading-copy" data-i18n="loadingForecast">Loading forecast…</p></div></section>
+          <div class="safety-note"><strong data-i18n="notNavigation">Not for navigation or safety decisions.</strong> <span data-i18n="marineDisclaimer">Open-Meteo sea-level and wave values are model estimates with limited coastal accuracy. Check IMD and local harbour advice before going out.</span> <span data-i18n="modelCredit">Marine model: </span><a href="https://open-meteo.com/en/docs/marine-weather-api" target="_blank" rel="noreferrer">Open-Meteo</a> · <a href="https://www.dwd.de/EN/service/copyright/copyright_node.html" target="_blank" rel="noreferrer">DWD</a></div>
+          <section class="zone-strip"><div><span class="eyebrow section-eyebrow" data-i18n="zoneEyebrow">LOCAL AREAS TO CHECK</span><h3 data-i18n="zoneTitle">Fishing zones</h3><p data-i18n="zoneDisclaimer">Map references only; ask local fishers about access, currents and restrictions.</p></div><div class="zone-links"><a href="https://www.google.com/maps/search/Malvan+jetty" target="_blank" rel="noreferrer" data-i18n="zoneJetty">Malvan jetty &#8599;</a><a href="https://www.google.com/maps/search/Devbagh+creek+Malvan" target="_blank" rel="noreferrer" data-i18n="zoneCreek">Devbagh creek &#8599;</a><a href="https://www.google.com/maps/search/Achara+jetty+Maharashtra" target="_blank" rel="noreferrer" data-i18n="zoneAcharaLink">Achara coast &#8599;</a></div></section>
+        </section>
+        <section class="feature-view" id="alerts-view" role="tabpanel" aria-labelledby="tab-alerts" hidden>
+          <div class="feature-heading"><div><span class="eyebrow section-eyebrow">WEATHER &amp; COMMUNITY REPORTS</span><h2>Monsoon alerts</h2></div><button id="enable-alerts" class="secondary-button">Enable device alerts</button></div><p class="section-intro">Official IMD warnings and neighbour-reported hazards are shown separately. Check the source and timestamp before acting.</p>
+          <div class="alert-grid"><section class="data-panel official-panel"><div class="panel-heading"><div><span class="eyebrow section-eyebrow">OFFICIAL SOURCE</span><h3>IMD weather warnings</h3></div><button class="icon-button" id="refresh-alerts" aria-label="Refresh official alerts" title="Refresh">&#8635;</button></div><div id="official-alerts" class="official-alerts"><p class="loading-copy">Checking IMD alerts…</p></div><div class="source-links"><a href="https://mausam.imd.gov.in/responsive/districtWiseWarningGIS.php" target="_blank" rel="noreferrer">IMD district warnings &#8599;</a><a href="https://cap-sources.s3.amazonaws.com/in-imd-en/rss.xml" target="_blank" rel="noreferrer">All-India CAP feed &#8599;</a></div></section><section class="data-panel rain-panel"><div class="panel-heading"><div><span class="eyebrow section-eyebrow">RAIN OUTLOOK · MALVAN</span><h3>Next 3 days</h3></div><span class="model-label">FORECAST MODEL</span></div><div id="rain-forecast" class="rain-forecast"><p class="loading-copy">Loading forecast…</p></div><p class="fine-print">Forecast guidance, not an official warning. Use IMD alerts for action.</p></section></div>
+          <section class="hazard-section"><div class="hazard-heading"><div><span class="eyebrow section-eyebrow">NEIGHBOUR REPORTS</span><h3>Road &amp; weather hazards</h3><p>Reports are saved on this device; share them so others can see them.</p></div><span class="local-badge">ON THIS DEVICE</span></div><div class="hazard-layout"><form id="hazard-form" class="report-form"><label class="form-label"><span>What happened?</span><select name="type" required><option value="rain">Heavy rain</option><option value="flood">Flooding / waterlogging</option><option value="road">Road closure / blockage</option><option value="other">Other hazard</option></select></label><label class="form-label"><span>Area</span><input name="area" maxlength="48" placeholder="e.g. Malvan bus stand" required /></label><label class="form-label"><span>A few details</span><textarea name="details" maxlength="180" rows="2" placeholder="What should neighbours know?" required></textarea></label><button class="post-button" type="submit">Post local report</button></form><div id="hazard-list" class="hazard-list" aria-live="polite"></div></div></section><p class="push-note">Device alerts work only while this page is open. True background push alerts need a shared notification server.</p>
+        </section>
+        <section class="feature-view" id="markets-view" role="tabpanel" aria-labelledby="tab-markets" hidden>
+          <div class="feature-heading"><div><span class="eyebrow section-eyebrow">FISH &amp; FARM GATE</span><h2>Today’s market prices</h2></div><span class="local-badge">COMMUNITY REPORTED</span></div><p class="section-intro">Daily prices shared by local buyers and sellers. No rates are pre-filled; confirm quality, unit and freshness before trading.</p>
+          <div class="market-toolbar"><label class="compact-label"><span>Market</span><select id="market-filter"><option value="all">All markets</option><option value="Sindhudurg">Sindhudurg</option><option value="Ratnagiri">Ratnagiri</option><option value="Raigad">Raigad</option></select></label><a href="https://agmarknet.gov.in/" target="_blank" rel="noreferrer" class="source-link">Check official crop market data &#8599;</a></div>
+          <div class="market-layout"><section class="market-table-panel"><div class="table-heading"><span>REPORTED TODAY</span><span id="market-date"></span></div><div id="market-list" class="market-list" aria-live="polite"></div><p class="fine-print">Community prices are unverified and local to this device, not official mandi rates.</p></section><form id="market-form" class="report-form market-form"><span class="eyebrow section-eyebrow">SHARE A PRICE</span><h3>What’s selling today?</h3><label class="form-label"><span>Market</span><select name="market" required><option value="Sindhudurg">Sindhudurg</option><option value="Ratnagiri">Ratnagiri</option><option value="Raigad">Raigad</option></select></label><label class="form-label"><span>Fish or crop</span><select name="item" required><optgroup label="Fish"><option>Bangda / Mackerel</option><option>Surmai / Kingfish</option><option>Pomfret</option><option>Prawns</option><option>Sardines</option><option>Other fish</option></optgroup><optgroup label="Crops"><option>Cashew</option><option>Kokum</option><option>Coconut</option><option>Rice</option><option>Other crop</option></optgroup></select></label><div class="price-input-row"><label class="form-label"><span>Price (₹)</span><input name="price" type="number" min="0.01" step="0.01" placeholder="0.00" required /></label><label class="form-label"><span>Unit</span><select name="unit"><option value="kg">per kg</option><option value="dozen">per dozen</option><option value="piece">per piece</option></select></label></div><button class="post-button" type="submit">Add today’s price</button></form></div>
+          <div class="market-footnote"><span class="market-mark" aria-hidden="true">&#8377;</span><p>AGMARKNET covers agricultural commodities, not fresh fish; official daily feeds require a data.gov.in API key. This board keeps local reports separate until a verified feed is configured.</p></div>
+        </section>
+
+        <section class="feature-view" id="buses-view" role="tabpanel" aria-labelledby="tab-buses" hidden>
+          <div class="feature-heading"><div><span class="eyebrow section-eyebrow" data-i18n="busEyebrow">GETTING HERE · BY ROAD</span><h2 data-i18n="busTitle">Mumbai &amp; Pune to Malvan</h2></div><span class="local-badge" data-i18n="routeChanges">ROUTES CHANGE BY DATE</span></div>
+          <p class="section-intro" data-i18n="busIntro">Compare current AC sleeper and other services. Confirm the date, pickup and drop point directly before travelling.</p>
+          <div class="bus-toolbar"><label class="compact-label"><span data-i18n="leavingFrom">Leaving from</span><select id="bus-origin"><option value="all" data-i18n="bothCities">Mumbai &amp; Pune</option><option value="Mumbai" data-i18n="originMumbai">Mumbai</option><option value="Pune" data-i18n="originPune">Pune</option></select></label><div class="route-links"><a href="https://www.redbus.in/bus-tickets/mumbai-to-malvan" target="_blank" rel="noreferrer" data-i18n="mumbaiBookings">Mumbai bookings &#8599;</a><a href="https://www.redbus.in/bus-tickets/pune-to-malvan" target="_blank" rel="noreferrer" data-i18n="puneBookings">Pune bookings &#8599;</a></div></div>
+          <div class="bus-list" id="bus-list">
+            <article class="bus-card" data-origin="Mumbai"><div class="bus-card-mark" aria-hidden="true">P</div><div class="bus-info"><div class="bus-name-row"><h3>Parijat Travels (Malvan)</h3><span class="direct-badge" data-i18n="directOperator">DIRECT OPERATOR</span></div><p data-i18n="parijatRoute">Mumbai ↔ Malvan · AC sleeper services listed on the operator’s site</p><div class="bus-contact"><a href="tel:+917743909999">+91 77439 09999</a><a href="mailto:parijatuday99@gmail.com">parijatuday99@gmail.com</a></div><small data-i18n="parijatAddress">Somwar Peth, Malvan, Sindhudurg</small></div><a class="bus-book" href="https://www.parijattravels.com/" target="_blank" rel="noreferrer" data-i18n="operatorWebsite">Website &amp; booking &#8599;</a></article>
+            <article class="bus-card" data-origin="Mumbai Pune"><div class="bus-card-mark" aria-hidden="true">G</div><div class="bus-info"><div class="bus-name-row"><h3>Ghumdai Travels</h3><span class="route-badge" data-i18n="routeListed">ROUTE LISTED</span></div><p data-i18n="ghumdaiRoute">Mumbai ↔ Malvan · Pune ↔ Malvan · AC and sleeper options listed</p><div class="bus-contact"><span data-i18n="redbusContact">No operator phone published on listing · enquire via redBus</span></div><small data-i18n="ghumdaiAddress">349 Sarvodaya Housing Society, Kumbharmath, Malvan</small></div><a class="bus-book" href="https://www.redbus.in/travels/ghumdai-travels" target="_blank" rel="noreferrer" data-i18n="operatorListing">Route &amp; contact listing &#8599;</a></article>
+            <article class="bus-card" data-origin="Mumbai Pune"><div class="bus-card-mark" aria-hidden="true">M</div><div class="bus-info"><div class="bus-name-row"><h3>Margeshwar Travels</h3><span class="route-badge" data-i18n="routeListed">ROUTE LISTED</span></div><p data-i18n="margeshwarRoute">Mumbai ↔ Malvan · Pune ↔ Malvan · AC seater/sleeper listed</p><div class="bus-contact"><span data-i18n="redbusContact">No operator phone published on listing · enquire via redBus</span></div><small data-i18n="margeshwarAddress">At Post Hadi, near Margeshwar Mandir, Malvan</small></div><a class="bus-book" href="https://www.redbus.in/travels/margeshwar-travels" target="_blank" rel="noreferrer" data-i18n="operatorListing">Route &amp; contact listing &#8599;</a></article>
+            <article class="bus-card" data-origin="Mumbai"><div class="bus-card-mark" aria-hidden="true">M</div><div class="bus-info"><div class="bus-name-row"><h3>Mujawar Travels</h3><span class="route-badge" data-i18n="routeListed">ROUTE LISTED</span></div><p data-i18n="mujawarRoute">Mumbai → Malvan · AC sleeper services listed</p><div class="bus-contact"><span data-i18n="redbusContact">No operator phone published on listing · enquire via redBus</span></div><small data-i18n="mujawarAddress">Kurla West, Mumbai</small></div><a class="bus-book" href="https://www.redbus.in/travels/mujawar-travels" target="_blank" rel="noreferrer" data-i18n="operatorListing">Route &amp; contact listing &#8599;</a></article>
+            <article class="bus-card" data-origin="Mumbai"><div class="bus-card-mark" aria-hidden="true">S</div><div class="bus-info"><div class="bus-name-row"><h3>SCTT Bus and Cargo</h3><span class="route-badge" data-i18n="routeListed">ROUTE LISTED</span></div><p data-i18n="scttRoute">Mumbai → Malvan · Bharat Benz AC sleeper listed</p><div class="bus-contact"><span data-i18n="redbusContact">No operator phone published on listing · enquire via redBus</span></div><small data-i18n="scttAddress">Sanpada, Navi Mumbai</small></div><a class="bus-book" href="https://www.redbus.in/travels/sctt-bus-and-cargo" target="_blank" rel="noreferrer" data-i18n="operatorListing">Route &amp; contact listing &#8599;</a></article>
+          </div>
+          <p class="bus-footnote" data-i18n="busDisclaimer">Operator routes, phone numbers, fares and schedules can change. Listed route status checked against operator or booking pages on 10 Oct 2026. Always reconfirm before departure.</p>
+        </section>
+
+        <section class="feature-view" id="places-view" role="tabpanel" aria-labelledby="tab-places" hidden>
+          <div class="feature-heading"><div><span class="eyebrow section-eyebrow" data-i18n="placesEyebrow">THE KONKAN, UP CLOSE</span><h2 data-i18n="placesTitle">A few Malvan favourites</h2></div><a class="source-link" href="https://www.google.com/maps/search/tourist+places+near+Malvan+Maharashtra" target="_blank" rel="noreferrer" data-i18n="openMap">Open the map &#8599;</a></div>
+          <div class="places-grid">
+            <figure class="place-card"><img src="https://upload.wikimedia.org/wikipedia/commons/e/ec/Sindhudurg_Fort%2C_Back_Wall.jpg" alt="Sindhudurg Fort wall beside the Arabian Sea" data-i18n-alt="altFort" loading="lazy"><figcaption><h3 data-i18n="spotFort">Sindhudurg Fort</h3><p data-i18n="spotFortCopy">A sea fort off Malvan, built under Chhatrapati Shivaji.</p><a href="https://commons.wikimedia.org/wiki/File:Sindhudurg_Fort,_Back_Wall.jpg" target="_blank" rel="noreferrer">Aparnavenugopal · CC BY 3.0</a></figcaption></figure>
+            <figure class="place-card"><img src="https://upload.wikimedia.org/wikipedia/commons/c/cc/Tarkarli_Beach_-_Konkan_India.JPG" alt="Tarkarli beach on the Konkan coast" data-i18n-alt="altTarkarli" loading="lazy"><figcaption><h3 data-i18n="spotTarkarli">Tarkarli Beach</h3><p data-i18n="spotTarkarliCopy">Long sandy shore near the Karli River mouth.</p><a href="https://commons.wikimedia.org/wiki/File:Tarkarli_Beach_-_Konkan_India.JPG" target="_blank" rel="noreferrer">Asifkhan31416 · CC BY-SA 4.0</a></figcaption></figure>
+            <figure class="place-card"><img src="https://upload.wikimedia.org/wikipedia/commons/e/ef/Malvan_Rock_Garden.jpg" alt="Rock Garden along the sea at Malvan" data-i18n-alt="altRock" loading="lazy"><figcaption><h3 data-i18n="spotRock">Malvan Rock Garden</h3><p data-i18n="spotRockCopy">A rocky sea-edge walk beside town.</p><a href="https://commons.wikimedia.org/wiki/File:Malvan_Rock_Garden.jpg" target="_blank" rel="noreferrer">Sanndesh · CC BY 3.0</a></figcaption></figure>
+            <figure class="place-card"><img src="https://upload.wikimedia.org/wikipedia/commons/4/41/Devbag_Backwaters.jpg" alt="Quiet backwaters at Devbag" data-i18n-alt="altDevbag" loading="lazy"><figcaption><h3 data-i18n="spotDevbag">Devbag backwaters</h3><p data-i18n="spotDevbagCopy">Where the Karli River meets the Arabian Sea.</p><a href="https://commons.wikimedia.org/wiki/File:Devbag_Backwaters.jpg" target="_blank" rel="noreferrer">Dmpendse · Public domain</a></figcaption></figure>
+          </div>
+        </section>
+
+        <div id="board-view" class="workspace feature-view" role="tabpanel" aria-labelledby="tab-board" hidden>
+          <section class="board" aria-labelledby="board-title">
+            <div class="board-heading">
+              <div>
+                <span class="eyebrow section-eyebrow" data-i18n="community">THE COMMUNITY BOARD</span>
+                <div class="title-row">
+                  <h2 id="board-title" data-i18n="boardTitle">Around Malvan</h2>
+                  <span class="local-badge" data-i18n="localBadge">ON THIS DEVICE</span>
+                </div>
+              </div>
+              <button class="post-button" id="open-compose"><span aria-hidden="true">+</span><span data-i18n="postButton">Write a post</span></button>
+            </div>
+
+            <p class="privacy-note" data-i18n="privacy">Your posts are saved in this browser only. Share a post to pass it along.</p>
+
+            <div class="board-controls">
+              <label class="search-box">
+                <span class="search-icon" aria-hidden="true"></span>
+                <input id="search" type="search" data-i18n-placeholder="searchPlaceholder" placeholder="Search posts, places, or services" />
+                <kbd>/</kbd>
+              </label>
+              <label class="filter-select-wrap">
+                <span class="sr-only" data-i18n="filterLabel">Filter posts</span>
+                <select id="category-filter" aria-label="Filter posts">
+                  <option value="all" data-i18n="allPosts">All posts</option>
+                  <option value="need" data-i18n="needs">Looking for</option>
+                  <option value="offer" data-i18n="offers">Offering</option>
+                  <option value="job">Jobs</option>
+                  <option value="lost">Lost &amp; found</option>
+                  <option value="hire">Boat / vehicle hire</option>
+                  <option value="notice" data-i18n="notices">Local announcement</option>
+                </select>
+              </label>
+            </div>
+
+            <div class="board-meta">
+              <span id="result-count" aria-live="polite"></span>
+              <button id="clear-posts" class="text-button" data-i18n="clearButton" hidden>Clear my posts</button>
+            </div>
+            <div id="post-list" class="post-list" aria-live="polite"></div>
+            <div id="empty-state" class="empty-state" hidden>
+              <span class="empty-mark" aria-hidden="true">+</span>
+              <h3 data-i18n="emptyTitle">A little quiet here.</h3>
+              <p data-i18n="emptyCopy">Start the board with a request, an offer, or a local update.</p>
+              <button class="text-button" id="empty-compose" data-i18n="emptyAction">Write the first post</button>
+            </div>
+            <p class="demo-note"><span class="demo-dot"></span><span data-i18n="demoNote">Example posts show how the board works. They aren't live listings.</span></p>
+          </section>
+
+          <aside class="sidebar" aria-label="Malvan local shortcuts">
+            <section class="quick-links">
+              <div class="sidebar-heading">
+                <span class="eyebrow section-eyebrow" data-i18n="nearbyEyebrow">OUT AND ABOUT</span>
+                <h2 data-i18n="nearbyTitle">Find nearby</h2>
+              </div>
+              <p data-i18n="nearbyCopy">Open a live map search for useful places around Malvan.</p>
+              <nav class="place-list" aria-label="Search nearby places">
+                <a class="place-link" href="https://www.google.com/maps/search/pharmacy+near+Malvan+Maharashtra" target="_blank" rel="noreferrer"><span class="place-symbol pharmacy" aria-hidden="true">+</span><span data-i18n="pharmacies">Pharmacies</span><span class="place-arrow" aria-hidden="true">&#8599;</span></a>
+                <a class="place-link" href="https://www.google.com/maps/search/hospital+near+Malvan+Maharashtra" target="_blank" rel="noreferrer"><span class="place-symbol clinic" aria-hidden="true">&#10010;</span><span data-i18n="healthcare">Clinics &amp; hospitals</span><span class="place-arrow" aria-hidden="true">&#8599;</span></a>
+                <a class="place-link" href="https://www.google.com/maps/search/petrol+pump+near+Malvan+Maharashtra" target="_blank" rel="noreferrer"><span class="place-symbol fuel" aria-hidden="true">&#9679;</span><span data-i18n="fuel">Fuel stations</span><span class="place-arrow" aria-hidden="true">&#8599;</span></a>
+                <a class="place-link" href="https://www.google.com/maps/search/ATM+near+Malvan+Maharashtra" target="_blank" rel="noreferrer"><span class="place-symbol atm" aria-hidden="true">&#8377;</span><span data-i18n="atms">ATMs</span><span class="place-arrow" aria-hidden="true">&#8599;</span></a>
+              </nav>
+              <span class="maps-credit" data-i18n="mapsCredit">Map results open in Google Maps</span>
+            </section>
+
+            <section class="community-card">
+              <span class="card-sun" aria-hidden="true">&#9728;</span>
+              <span class="eyebrow" data-i18n="smallThings">SMALL THINGS, BIG HELP</span>
+              <h3 data-i18n="communityCardTitle">Know a neighbour who needs this?</h3>
+              <p data-i18n="communityCardCopy">Share the board with someone nearby. Posts stay on this device until shared.</p>
+              <button class="share-board" id="share-board"><span data-i18n="shareBoard">Share Malvan Connect</span><span aria-hidden="true">&#8594;</span></button>
+            </section>
+          </aside>
+        </div>
+      </main>
+      <footer class="footer"><span>malvan<span class="footer-accent">connect</span></span><span data-i18n="footerCopy">Made for everyday life in Malvan.</span><a href="https://www.google.com/maps/search/Malvan+Maharashtra" target="_blank" rel="noreferrer" data-i18n="exploreMap">Explore Malvan &#8599;</a><a href="https://advaitchavan.netlify.app/" target="_blank" rel="noopener noreferrer" data-i18n="developerProfile">Developer profile &#8599;</a></footer>
+    </div>
+
+    <dialog id="compose-dialog" class="compose-dialog" aria-labelledby="compose-title">
+      <form id="post-form" method="dialog">
+        <div class="dialog-heading">
+          <div><span class="eyebrow section-eyebrow" data-i18n="newPostEyebrow">A NOTE FOR YOUR NEIGHBOURS</span><h2 id="compose-title" data-i18n="newPostTitle">Write a post</h2></div>
+          <button class="close-button" type="button" id="close-compose" aria-label="Close">&times;</button>
+        </div>
+        <label class="form-label"><span data-i18n="typeLabel">What kind of post?</span>
+          <select name="category" required>
+            <option value="need" data-i18n="needs">Looking for</option>
+            <option value="offer" data-i18n="offers">Offering</option>
+            <option value="job">Jobs</option>
+            <option value="lost">Lost &amp; found</option>
+            <option value="hire">Boat / vehicle hire</option>
+            <option value="notice" data-i18n="notices">Local announcement</option>
+          </select>
+        </label>
+        <label class="form-label"><span data-i18n="titleLabel">Short heading</span><input name="title" maxlength="72" required data-i18n-placeholder="titlePlaceholder" placeholder="What do neighbours need to know?" /></label>
+        <label class="form-label"><span data-i18n="detailsLabel">A few details</span><textarea name="body" maxlength="280" rows="3" required data-i18n-placeholder="detailsPlaceholder" placeholder="Add useful details, area, or timing"></textarea><span class="character-count" id="character-count">0 / 280</span></label>
+        <div class="media-field"><label class="form-label" for="post-media"><span data-i18n="mediaLabel">Photos or videos (optional)</span><input id="post-media" type="file" accept="image/*,video/mp4,video/webm,video/quicktime" multiple aria-describedby="media-hint" /></label><p id="media-hint" class="media-help"><span data-i18n="mediaHelp">Add up to 3 photos/videos, 15 MB total. Saved only in this browser.</span><span aria-hidden="true"> · </span><span id="media-count">0 / 3 selected · 0.0 MB</span></p><div id="media-preview" class="media-preview" aria-live="polite"></div></div>
+        <div class="form-row">
+          <label class="form-label"><span data-i18n="areaLabel">Area</span><input name="area" maxlength="36" value="Malvan" required /></label>
+          <label class="form-label"><span data-i18n="contactLabel">Phone / WhatsApp <span class="optional">(optional)</span></span><input name="contact" type="tel" maxlength="24" data-i18n-placeholder="contactPlaceholder" placeholder="Your number" /></label>
+        </div>
+        <p class="form-privacy" data-i18n="formPrivacy">Your contact is only included when someone shares your post. Don't include sensitive information.</p>
+        <div class="form-actions"><button class="cancel-button" type="button" id="cancel-compose" data-i18n="cancel">Cancel</button><button class="post-button" type="submit" data-i18n="savePost">Add to my board</button></div>
+      </form>
+    </dialog>
+    <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  </body>
+</html>
